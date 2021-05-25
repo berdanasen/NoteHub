@@ -40,7 +40,8 @@ namespace NoteHub.API.Controllers
 
                 var authClaims = new List<Claim>()
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                    new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 };
 
@@ -62,6 +63,24 @@ namespace NoteHub.API.Controllers
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     expiration = token.ValidTo
                 });
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register(RegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser()
+                {
+                    Email = model.Email,
+                    UserName = model.Email
+                };
+                await _userManager.CreateAsync(user, model.Password);
+
+                return Ok();
             }
 
             return BadRequest(ModelState);
