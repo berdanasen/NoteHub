@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
+import { Link } from 'react-router-dom';
 
 function Register() {
     return (
@@ -36,6 +37,9 @@ function Register() {
                     </Button>
                 </Form>
 
+                <div className="text-center mt-3">
+                    <Link to="/login" >Login with existing user account.</Link>
+                </div>
             </Card.Body>
         </Card>
     );
