@@ -74,7 +74,7 @@ https://react-bootstrap.github.io/getting-started/introduction
 https://marketplace.visualstudio.com/items?itemName=dsznajder.es7-react-js-snippets
 npm install react-bootstrap bootstrap@4.6.0
 https://reactrouter.com/web/guides/quick-start
-
+https://www.npmjs.com/package/react-toastify
 
 ### vscode extensions
 ES7 React/Redux/GraphQL/React-Native snippets
