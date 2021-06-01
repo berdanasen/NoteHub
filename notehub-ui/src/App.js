@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Redirect
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -14,10 +14,12 @@ import Login from './Login';
 import Logout from './Logout';
 
 function App() {
-  let isLoggedIn = true; // todo: context'in içine kat.
-  const [token, setToken] = useState("qwerty");
+  // let isLoggedIn = true; // todo: context'in içine kat.
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [token, setToken] = useState(null);
+
   return (
-    <AppContext.Provider value={{ token, setToken }}>
+    <AppContext.Provider value={{ token, setToken, isLoggedIn, setIsLoggedIn }}>
       <Router>
         <Switch>
           <Route path="/register">
@@ -30,7 +32,7 @@ function App() {
             <Logout />
           </Route>
           <Route path="/">
-            { isLoggedIn ? <Home /> : <div>önce giriş yap</div> }
+            { isLoggedIn ? <Home /> : <Redirect to="/login" /> }
           </Route>
         </Switch>
       </Router>

@@ -77,6 +77,8 @@ https://reactrouter.com/web/guides/quick-start
 https://www.npmjs.com/package/react-toastify
 npm install react-toastify
 https://reactjs.org/docs/context.html
+https://github.com/axios/axios
+npm install axios
 
 ### vscode extensions
 ES7 React/Redux/GraphQL/React-Native snippets

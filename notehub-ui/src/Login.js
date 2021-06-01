@@ -6,7 +6,8 @@ import Alert from 'react-bootstrap/Alert';
 import { Link, useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function Login() {
     var query = new URLSearchParams(useLocation().search);
@@ -16,7 +17,33 @@ function Login() {
         if (qlogout == "success") {
             toast("You have logged out successfully!");
         }
-    });  
+    }, [qlogout]);  
+
+    // useEffect(() => {
+    //     // bu kod her zaman (render/update) çalışacak
+    //     toast("adsasd");
+    // });
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [rememberMe, setRememberMe] = useState(true);
+
+    const handleSubmit = function(e) {
+        e.preventDefault();
+        axios.post("https://localhost:5001/api/Account/Login", {
+            username: email,
+            password: password
+        })
+        .then(function(response) {
+            console.log(response);
+        })
+        .catch(function(error) {
+            const messages = [];
+            for (const key in error.response.data) {
+                messages.push(...data[key]);
+            }
+        });
+    }
 
     return (
         <Card className="card-login">
@@ -26,19 +53,19 @@ function Login() {
                 <Alert variant="danger">
                     İnvalid e-mail or password.
                 </Alert>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Control type="email" placeholder="Enter email" value={email} onInput={(e) => setEmail(e.target.value)} />
                     </Form.Group>
 
                     <Form.Group controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
+                        <Form.Control type="password" placeholder="Password" value={password} onInput={(e) => setPassword(e.target.value)} />
                     </Form.Group>
 
                     <Form.Group controlId="formBasicCheckBox">
-                        <Form.Check type="checkbox" label="Remember Me" />
+                        <Form.Check type="checkbox" label="Remember Me" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
                     </Form.Group>
 
                     <Button variant="primary" type="submit">
