@@ -35,7 +35,7 @@ namespace NoteHub.API.Controllers
                 if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
                 {
                     ModelState.AddModelError("", "Invalid username or password!");
-                    return BadRequest(ModelState);
+                    return ValidationProblem(ModelState);
                 }
 
                 var authClaims = new List<Claim>()
@@ -65,7 +65,7 @@ namespace NoteHub.API.Controllers
                 });
             }
 
-            return BadRequest(ModelState);
+            return ValidationProblem(ModelState);
         }
 
         [HttpPost("Register")]
@@ -83,7 +83,7 @@ namespace NoteHub.API.Controllers
                 return Ok();
             }
 
-            return BadRequest(ModelState);
+            return ValidationProblem(ModelState);
         }
     }
 }
