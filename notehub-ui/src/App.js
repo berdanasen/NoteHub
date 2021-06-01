@@ -14,6 +14,7 @@ import Login from './Login';
 import Logout from './Logout';
 
 function App() {
+  // local/session storage da token varsa login et...
   // let isLoggedIn = true; // todo: context'in içine kat.
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [token, setToken] = useState(null);
