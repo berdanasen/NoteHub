@@ -81,6 +81,7 @@ https://github.com/axios/axios
 npm install axios
 https://stackoverflow.com/questions/55289631/inconsistent-behaviour-with-modelstate-validation-asp-net-core-api
 Account Controller 'da değişiklik yaptık bu linkten faydalanarak.
+https://stackoverflow.com/questions/49579028/adding-an-env-file-to-react-project
 
 ### vscode extensions
 ES7 React/Redux/GraphQL/React-Native snippets
