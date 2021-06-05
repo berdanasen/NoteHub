@@ -83,6 +83,9 @@ https://stackoverflow.com/questions/55289631/inconsistent-behaviour-with-modelst
 Account Controller 'da değişiklik yaptık bu linkten faydalanarak.
 https://stackoverflow.com/questions/49579028/adding-an-env-file-to-react-project
 
+
+npm i @fortawesome/fontawesome-free
+
 ### vscode extensions
 ES7 React/Redux/GraphQL/React-Native snippets
 

@@ -10,12 +10,58 @@ function Home() {
     const apiroot = process.env.REACT_APP_API_ROOT;
     const token = ctx.token;
     const [notes, setNotes] = useState([]);
-    const [note, setNote] = useState({ id: 0, title:"", content:"", createdTime:"", modifiedTime:"" });
+    const emptyNote = { id: 0, title:"", content:"", createdTime:"", modifiedTime:"" };
+    const [note, setNote] = useState({...emptyNote});
 
     const loadNotes = function() {
-        axios.get(apiroot + "/api/Notes", { headers: { Authorization: "Bearer " + token }})
+        axios.get(apiroot + "/api/Notes", 
+        { headers: { Authorization: "Bearer " + token }})
         .then(function(response) {
             setNotes(response.data);
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+    };
+
+    const addNewNote = function() {
+        axios.post(apiroot + "/api/Notes", 
+        { title: "New Note", content: "" }, 
+        { headers: { Authorization: "Bearer " + token }})
+        .then(function(response) {
+            const note = response.data;
+            // setNotes([note, ...notes]); // prepends the newly created note to the note list
+            setNotes([...notes, note]); // appends  
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+    };
+
+    const saveNote = function() {
+        axios.put(apiroot + "/api/Notes/" + note.id, 
+        { id: note.id, title: note.title, content: note.content }, 
+        { headers: { Authorization: "Bearer " + token }})
+        .then(function (response) {
+            // loadNotes(); // easy way all notes changes loading 
+            const newNotes = [...notes]; // copy of notes list 
+            const selectedNote = newNotes.find((x) => x.id == note.id); // find the note with id
+            selectedNote.title = note.title; // update the note's title
+            selectedNote.content = note.content; // update the note's content
+            setNotes(newNotes); // update the state
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+    };
+
+    const deleteNote = function() {
+        axios.delete(apiroot + "/api/Notes/" + note.id, 
+        { headers: { Authorization: "Bearer " + token }})
+        .then(function(response) {
+            const newNotes = notes.filter((x) => x.id != note.id);
+            setNotes(newNotes);
+            setNote({...emptyNote});
         })
         .catch(function(error) {
             console.log(error);
@@ -25,6 +71,21 @@ function Home() {
     const handleTitleClick = function (e, note) {
         e.preventDefault();
         setNote(note);
+    };
+
+    const handleNewNoteClick = function (e) {
+        e.preventDefault();
+        addNewNote();
+    };
+
+    const handleSaveClick = function(e) {
+        e.preventDefault();
+        saveNote();
+    };
+
+    const handleDeleteClick = function(e) {
+        e.preventDefault();
+        deleteNote();
     };
 
     useEffect(() => {
@@ -50,10 +111,16 @@ function Home() {
             <Container fluid className="flex-fill">
                 <Row className="h-100">
                     <Col sm={4} md={3}>
-                        <h3 className="mt-4">My Notes</h3>
-                        <ListGroup>
+                        <h3 className="mt-4 d-flex">
+                            My Notes 
+                            <Button variant="success" className="ml-auto" onClick={handleNewNoteClick}>
+                                <i className="fas fa-plus"></i>
+                            </Button>
+                        </h3>
+                        <ListGroup activeKey={"#notes-" + note.id}>
                             { notes.map((note, index) => 
-                                <ListGroup.Item action href={"#notes-" + index} key={note.id} onClick={(e) => handleTitleClick(e, note)}>
+                                <ListGroup.Item action href={"#notes-" + note.id} key={note.id} 
+                                onClick={(e) => handleTitleClick(e, note)} >
                                     { note.title }
                                 </ListGroup.Item>
                             )}
@@ -62,14 +129,16 @@ function Home() {
                     <Col className="h-100" sm={8} md={9}>
                         <Form className="py-3 h-100 d-flex flex-column">
                             <Form.Group>
-                                <Form.Control type="text" placeholder="Title" value={note.Title} />
+                                <Form.Control type="text" placeholder="Title" value={note.title} 
+                                onChange={(e) => setNote({...note, title: e.target.value})} />
                             </Form.Group>
                             <Form.Group className="flex-fill">
-                                <Form.Control className="h-100" as="textarea" rows={10} placeholder="Title" value={note.content} />
+                                <Form.Control className="h-100" as="textarea" rows={10} placeholder="Content" value={note.content}  
+                                onChange={(e) => setNote({...note, content: e.target.value})} />
                             </Form.Group>
                             <div>
-                                <Button variant="primary">Kaydet</Button>
-                                <Button variant="danger" className="ml-2">Sil</Button>
+                                <Button variant="primary" onClick={handleSaveClick}>Save</Button>
+                                <Button variant="danger" className="ml-2" onClick={handleDeleteClick}>Delete</Button>
                             </div>
                         </Form>
                     </Col>
