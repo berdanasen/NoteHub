@@ -83,6 +83,8 @@ https://stackoverflow.com/questions/55289631/inconsistent-behaviour-with-modelst
 Account Controller 'da değişiklik yaptık bu linkten faydalanarak.
 https://stackoverflow.com/questions/49579028/adding-an-env-file-to-react-project
 
+https://stackoverflow.com/questions/60640131/how-to-remove-webdav-in-startup-cs-asp-net-core
+
 
 npm i @fortawesome/fontawesome-free
 
