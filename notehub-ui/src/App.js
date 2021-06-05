@@ -23,7 +23,7 @@ function App() {
 
   return (
     <AppContext.Provider value={{ token, setToken, isLoggedIn, setIsLoggedIn, username, setUsername }}>
-      <Router>
+      <Router basename="/NoteHub">
         <Switch>
           <Route path="/register">
             <Register />
